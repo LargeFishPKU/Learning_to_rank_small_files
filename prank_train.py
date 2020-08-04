@@ -36,7 +36,11 @@ def train_save(batch_size, embed_size, bias_number, iterations, save_embedding_p
         len_dataload = len(dataload)
         avg_acc = 0.0
         for j, (context_id, target_ids, labels) in enumerate(dataload):
-            acc = model(context_id, target_ids, labels)
+            try:
+                acc = model(context_id, target_ids, labels)
+            except Exception as e:
+                import pdb; pdb.set_trace()
+
             avg_acc = avg_acc + acc
             if j % 100 == 0:
                 print("sub: {} / {}, accuracy : {:.2f}%".format(j, len_dataload, avg_acc / (j + 1) * 100), flush = True)

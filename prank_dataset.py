@@ -31,7 +31,7 @@ class PRank_Dataset:
             for line in f:
                 line = line.rstrip("\r\n")
                 target_id, _, value = line.split(' ')
-                target_id = int(target_id)
+                target_id = int(target_id) - 1
                 value = float(value)
                 all_target_ids.append(target_id)
                 all_target_values.append(value)

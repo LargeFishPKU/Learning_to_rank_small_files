@@ -58,7 +58,11 @@ class PRank(nn.Module):
         dots = dots.squeeze(0).unsqueeze(1).repeat(1, self.bias_number) #(batch_size, bias_number)
         dots_bias = dots - temp_bias
 
-        p_labels = self.predicted_labels(dots_bias)
+        try:
+            p_labels = self.predicted_labels(dots_bias)
+        except Exception as e:
+            print(dots_bias)
+
         acc = self.accuracy(p_labels, labels)
 
         yt = self.generate_yt(batch_size, self.bias_number, labels) #(batch, bias_number)
@@ -74,7 +78,7 @@ class PRank(nn.Module):
         # self.in_bias.weight[context_id] = self.in_bias.weight[context_id] - bias_update
         self.in_embed[context_id] = self.in_embed[context_id] + weight_update
         self.in_bias[context_id] = self.in_bias[context_id] - bias_update
-    
+
         return acc
 
     def generate_yt(self,batch_size, bias_number, labels):
